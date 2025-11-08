@@ -1,18 +1,18 @@
-# Clona repositorio
+Clona el repositorio:
 git clone https://github.com/linda-loeza/Sistema-Elevadores.git
 
-# Entra a la carpeta del proyecto
+Entra a la carpeta del proyecto:
 cd Sistema-Elevadores
 
-# Revisa tener la última versión de main
+Revisa si tienes la última versión de main:
 git pull origin main
 
-# Crea tu propia rama, no trabajes desde main 
+Crea tu propia rama, no trabajes desde main:
 git checkout -b feature/algoritmo
 
-# terminas y haces tus commits
+Terminas y haces tus commits
 
-# Para subir la rama 
+Para subir la rama:
 git push -u origin feature/algoritmo
 
-# crea un Pull Request para fusionar
+Crea un Pull Request para fusionar, revisa cambios si es necesario, no fuerces un push
