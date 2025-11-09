@@ -9,5 +9,13 @@ package Modelo;
  * @author natalia-loeza
  */
 public class Edificio {
+    private ControladorDeElevadores controlador;
+    private final int numeroDePisos = 10;
+    private final int numElevadores = 4;
+
+    public Edificio(int numElevadores) {
+        this.controlador = new ControladorDeElevadores(numElevadores);
+    }
+    
     
 }
