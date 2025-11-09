@@ -4,10 +4,18 @@
  */
 package Modelo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author natalia-loeza
  */
 public class ControladorDeElevadores {
+
+    public ControladorDeElevadores(int numElevadores) {
+    }
+    private ArrayList<Elevador> listaDeElevadores;
+    private ArrayList<Peticion> peticionesPendientes;
+    
     
 }
