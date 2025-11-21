@@ -14,5 +14,6 @@ Terminas y haces tus commits
 
 Para subir la rama:
 git push -u origin feature/algoritmo
+las siguientes veces puedes solo escribir git push
 
 Crea un Pull Request para fusionar, revisa cambios si es necesario, no fuerces un push
