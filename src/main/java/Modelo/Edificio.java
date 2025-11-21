@@ -14,7 +14,7 @@ public class Edificio {
     private final int numElevadores = 4;
 
     public Edificio(int numElevadores) {
-        //papu
+        System.out.println("Hola mundo!");
     }
     
     
