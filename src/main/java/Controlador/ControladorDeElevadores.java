@@ -1,5 +1,7 @@
-package Modelo;
+package Controlador;
 
+import Modelo.Elevador;
+import Modelo.Peticion;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,14 @@ public class ControladorDeElevadores {
     public ControladorDeElevadores(List<Elevador> elevadores) {
         this.elevadores = elevadores;
         this.peticionesPendientes = new ArrayList<>();
+    }
+
+    public void setElevadores(List<Elevador> elevadores) {
+        this.elevadores = elevadores;
+    }
+
+    public void setPeticionesPendientes(List<Peticion> peticionesPendientes) {
+        this.peticionesPendientes = peticionesPendientes;
     }
 
     public void recibirPeticion(Peticion peticion) {
