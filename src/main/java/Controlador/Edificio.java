@@ -15,6 +15,7 @@ public class Edificio {
     private ControladorDeElevadores controlador;
     private final int numeroDePisos = 10;
     private ArrayList<Elevador> listaDeElevadores;
+    private Peticion peticion;
 
     public Edificio(int numElevadores) {
         this.listaDeElevadores = new ArrayList<>();
@@ -37,7 +38,9 @@ public class Edificio {
     
     public void realizarPeticion(int piso, int direccion){
         System.out.println("Solicitud recibida: De piso " + piso + " a " + direccion);
-        //controlador.asignarElevador(piso, direccion);
+        this.peticion.setPisoOrigen(piso);
+        this.peticion.setPisoDestino(direccion);
+        controlador.procesarPeticion(peticion);
     }
     
     

@@ -22,13 +22,13 @@ public class ControladorDeElevadores {
         this.peticionesPendientes = peticionesPendientes;
     }
 
-    public void recibirPeticion(Peticion peticion) {
+    public void procesarPeticion(Peticion peticion) {
         System.out.println("Nueva petición recibida: " + peticion);
         peticionesPendientes.add(peticion);
-        asignarElevador(peticion);
+        asignarElevador(peticion,this.peticionesPendientes.getLast());
     }
 
-    private void asignarElevador(Peticion peticion) {
+    protected void asignarElevador(Peticion peticion, Peticion direccion) {
         Elevador mejor = null;
         int distanciaMinima = Integer.MAX_VALUE;
 
