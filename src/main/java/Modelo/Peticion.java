@@ -11,28 +11,32 @@ package Modelo;
 public class Peticion {
     private int pisoOrigen;
     private int pisoDestino;
-
-    public Peticion(int pisoOrigen, int pisoDestino) {
-        this.pisoOrigen = pisoOrigen;
-        this.pisoDestino = pisoDestino;
-    }
+    private int elevadorElegido;
 
     public int getPisoOrigen() {
         return pisoOrigen;
     }
 
-    public void setPisoOrigen(int pisoOrigen) {
-        this.pisoOrigen = pisoOrigen;
-    }
-
     public int getPisoDestino() {
         return pisoDestino;
     }
+    
+    public int getElevadorElegido() {
+        return elevadorElegido;
+    }
 
+    public void setPisoOrigen(int pisoOrigen) {
+        this.pisoOrigen = pisoOrigen;
+    }
+    
     public void setPisoDestino(int pisoDestino) {
         this.pisoDestino = pisoDestino;
     }
 
+    public void setElevadorELegido(int elevadorElegido) {
+        this.elevadorElegido = elevadorElegido;
+    }
+    
     @Override
     public String toString() {
         return "Peticion{" + "pisoOrigen=" + getPisoOrigen() + 

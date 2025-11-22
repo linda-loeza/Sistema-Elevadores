@@ -17,13 +17,14 @@ public abstract class Elevador {
     protected boolean puertasAbiertas;
     protected ArrayList<Peticion> peticionesAsignadas;
     protected int direccion;
+    protected Peticion peticion;
+    
+    //para tener la lista de pisos destino ordenado
+    protected TreeSet<Integer> destinos;
     
     public static final int SUBIENDO = 1;
     public static final int BAJANDO = -1;
     public static final int PARADO = 0;
-
-    //para tener la lista de pisos destino ordenado
-    protected TreeSet<Integer> destinos;
     
     //contructor elevador modificado
     public Elevador(int id){
@@ -33,21 +34,7 @@ public abstract class Elevador {
         this.destinos= new TreeSet<>();
     }
 
-    public void agregarDestino(int pisoActual){
-        //si ya esta en el piso y esta parado el elevador
-        if(pisoActual == this.pisoActual && this.direccion == PARADO){
-            return;
-        }
-        
-        boolean agregado = this.destinos.add(pisoActual);
-        
-        if(agregado){
-            System.out.println("Elevador " +getId() + 
-                ": Destino " + getPisoActual() + " agregado. Destinos actuales: " + destinos);
-    
-        }
-        
-    }
+
     
     public int getId() {
         return id;
@@ -87,7 +74,46 @@ public abstract class Elevador {
     
     public abstract void mover();
     
-    private String direccionToString() {
+    public void agregarDestino(ArrayList<Peticion> peticionesAsignadas){
+        
+        int pisoActual = peticionesAsignadas.getLast().getPisoOrigen();
+        int pisoDestino = peticionesAsignadas.getLast().getPisoDestino();
+        
+        //si ya esta en el piso y esta parado el elevador
+        if(this.direccion == PARADO && this.pisoActual == pisoDestino){
+            abrirPuertas();
+            return;
+        }
+        
+        boolean agregado = this.destinos.add(pisoActual);
+        
+        if(agregado){
+            System.out.println("Elevador " +getId() + 
+                ": Destino " + getPisoActual() + " agregado. Destinos actuales: " + destinos);
+            
+        }
+        
+    }
+    
+    public void cerrarPuertas() {
+        this.puertasAbiertas = false;
+        System.out.println("Puertas cerrando...");
+    }
+
+    public void abrirPuertas() {
+        this.puertasAbiertas = true;
+        System.out.println("Puertas abriendo...");
+    }
+    
+    public void esperarUnSegundo() {
+        try {
+            Thread.sleep(1000); // Pausa el programa 1 seg
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public String direccionToString() {
         switch (this.direccion) {
             case SUBIENDO:
                 return "SUBIENDO";
