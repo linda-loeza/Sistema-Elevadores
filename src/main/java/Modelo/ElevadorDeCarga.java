@@ -4,18 +4,17 @@
  */
 package Modelo;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author natalia-loeza
  */
 public class ElevadorDeCarga extends Elevador{
-    private double capacidadMaxKg;
+    private double capacidadMaxKg = 200;
     private double cargaActualKg;
 
-    public ElevadorDeCarga(int id) {
-        super(id);
+    public ElevadorDeCarga(int id, double cargaActualKg) {
+        super(3);
+        this.cargaActualKg = cargaActualKg;
     }
 
     public double getCapacidadMaxKg() {
@@ -42,8 +41,55 @@ public class ElevadorDeCarga extends Elevador{
 
     @Override
     public void mover() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    
+         //verificar el pesos
+        System.out.println("Verificando peso...");
+        if(this.cargaActualKg > this.capacidadMaxKg){
+            System.out.println("Peso excedido. Libere peso del elevador.");
+            return;
+        }
+        
+        if (destinos.isEmpty()) {
+            return;
+        }
+          
+        Integer siguientePiso = null;
+        
+        // Cerrar puertas antes de mover
+        if (this.puertasAbiertas) {
+            cerrarPuertas();
+        }
+
+        //Verificar si sube o baja
+        
+        if(this.direccion == SUBIENDO){
+            siguientePiso = destinos.higher(this.pisoActual);
+            if(siguientePiso == null){
+                this.direccion = BAJANDO;
+                siguientePiso = destinos.lower(this.pisoActual);
+                if(siguientePiso == null){
+                   siguientePiso = destinos.higher(this.pisoActual);
+                }
+            }
+        }else{
+            siguientePiso = destinos.lower(this.pisoActual);
+            if(siguientePiso == null){
+                this.direccion = SUBIENDO;
+                siguientePiso = destinos.higher(this.pisoActual);
+                if(siguientePiso == null){
+                    this.direccion = BAJANDO;
+                    siguientePiso = destinos.lower(this.pisoActual);
+                }
+            }
+        }
+        if(siguientePiso != null){
+            this.esperarUnSegundo();
+            this.pisoActual = siguientePiso;
+            abrirPuertas();
+        
+            destinos.remove(this.pisoActual); //eliminamos el destino ya que llegamos
+        
+            System.out.println("Elevador en el piso" + getPisoActual());
+            
+        } 
+    } 
 }

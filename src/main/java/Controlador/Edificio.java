@@ -14,8 +14,6 @@ import java.util.ArrayList;
 public class Edificio {
     private ControladorDeElevadores controlador;
     private final int numeroDePisos = 10;
-    private ArrayList<Elevador> listaDeElevadores;
-    private Peticion peticion;
 
     public Edificio(int numElevadores) {
         this.listaDeElevadores = new ArrayList<>();
@@ -36,13 +34,10 @@ public class Edificio {
         //frmInicio.setVisible(true);
     }
     
-    public void realizarPeticion(int piso, int direccion){
-        System.out.println("Solicitud recibida: De piso " + piso + " a " + direccion);
+    public void realizarPeticion(int piso, int direccion, int tipoElevador){
+        System.out.println("Solicitud recibida: De piso " + piso + " a piso " + direccion + "Elevador de tipo " + tipoElevador);
         this.peticion.setPisoOrigen(piso);
         this.peticion.setPisoDestino(direccion);
         controlador.procesarPeticion(peticion);
     }
-    
-    
-    
 }
