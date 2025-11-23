@@ -8,14 +8,14 @@ package Vista;
  *
  * @author natalia-loeza
  */
-public class InicioSistema extends javax.swing.JFrame {
+public class FrmInfoElevadores extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InicioSistema.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmInfoElevadores.class.getName());
 
     /**
-     * Creates new form InicioSistema
+     * Creates new form InfoElevadores
      */
-    public InicioSistema() {
+    public FrmInfoElevadores() {
         initComponents();
     }
 
@@ -66,7 +66,7 @@ public class InicioSistema extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new InicioSistema().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new FrmInfoElevadores().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
