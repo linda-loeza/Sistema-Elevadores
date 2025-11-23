@@ -13,6 +13,12 @@ public class Peticion {
     private int pisoDestino;
     private int elevadorElegido;
 
+    public Peticion(int pisoOrigen, int pisoDestino, int elevadorElegido) {
+        this.pisoOrigen = pisoOrigen;
+        this.pisoDestino = pisoDestino;
+        this.elevadorElegido = elevadorElegido;
+    }
+
     public int getPisoOrigen() {
         return pisoOrigen;
     }
@@ -33,7 +39,7 @@ public class Peticion {
         this.pisoDestino = pisoDestino;
     }
 
-    public void setElevadorELegido(int elevadorElegido) {
+    public void setElevadorElegido(int elevadorElegido) {
         this.elevadorElegido = elevadorElegido;
     }
     
