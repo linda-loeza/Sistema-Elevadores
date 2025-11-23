@@ -5,6 +5,7 @@
 package Controlador;
 import Modelo.*;
 import Controlador.ControladorDeElevadores;
+import Vista.FrmInicioSistema;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +17,8 @@ public class EdificioMain {
     /**
      * @param args the command line arguments
      */
+    
+    FrmInicioSistema inicioMenu = new FrmInicioSistema();
     
     private final int numeroDePisos = 10;
     private ControladorDeElevadores controlador;
@@ -57,8 +60,7 @@ public class EdificioMain {
     }
     
     public void iniciarSimulacion(){
-        //AQUI VA EL FRM DE INCIO DEL GUI
-        //frmInicio.setVisible(true);
+        inicioMenu.setVisible(true);
     }
     
     public void realizarPeticion(int piso, int direccion, int tipoElevador){
