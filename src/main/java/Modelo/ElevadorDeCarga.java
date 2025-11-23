@@ -62,33 +62,33 @@ public class ElevadorDeCarga extends Elevador{
         //Verificar si sube o baja
         
         if(this.direccion == SUBIENDO){
-            siguientePiso = destinos.higher(this.pisoActual);
+            siguientePiso = destinos.higher(this.pisoActualElevador);
             if(siguientePiso == null){
                 this.direccion = BAJANDO;
-                siguientePiso = destinos.lower(this.pisoActual);
+                siguientePiso = destinos.lower(this.pisoActualElevador);
                 if(siguientePiso == null){
-                   siguientePiso = destinos.higher(this.pisoActual);
+                   siguientePiso = destinos.higher(this.pisoActualElevador);
                 }
             }
         }else{
-            siguientePiso = destinos.lower(this.pisoActual);
+            siguientePiso = destinos.lower(this.pisoActualElevador);
             if(siguientePiso == null){
                 this.direccion = SUBIENDO;
-                siguientePiso = destinos.higher(this.pisoActual);
+                siguientePiso = destinos.higher(this.pisoActualElevador);
                 if(siguientePiso == null){
                     this.direccion = BAJANDO;
-                    siguientePiso = destinos.lower(this.pisoActual);
+                    siguientePiso = destinos.lower(this.pisoActualElevador);
                 }
             }
         }
         if(siguientePiso != null){
             this.esperarUnSegundo();
-            this.pisoActual = siguientePiso;
+            this.pisoActualElevador = siguientePiso;
             abrirPuertas();
         
-            destinos.remove(this.pisoActual); //eliminamos el destino ya que llegamos
+            destinos.remove(this.pisoActualElevador); //eliminamos el destino ya que llegamos
         
-            System.out.println("Elevador en el piso" + getPisoActual());
+            System.out.println("Elevador en el piso" + getPisoActualElevador());
             
         } 
     } 

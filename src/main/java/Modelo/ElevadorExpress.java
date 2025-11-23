@@ -36,7 +36,7 @@ public class ElevadorExpress extends Elevador {
           
         Integer siguientePiso = null;
         
-        if (this.pisoActual != 1 && this.pisoActual != 10) {
+        if (this.pisoActualElevador != 1 && this.pisoActualElevador != 10) {
             System.out.println("Elevador no disponible");
             return;
         }
@@ -46,13 +46,13 @@ public class ElevadorExpress extends Elevador {
             cerrarPuertas();
         }
         
-        if(this.pisoActual == 1){
+        if(this.pisoActualElevador == 1){
             if(destinos.contains(10)){
                 siguientePiso = 10;
             }else{
                 System.out.println("Elevador no disponible.");
             }
-        }else if(this.pisoActual == 10){
+        }else if(this.pisoActualElevador == 10){
             if(destinos.contains(1)){
                 siguientePiso = 1;
             }else{
@@ -61,12 +61,12 @@ public class ElevadorExpress extends Elevador {
         }
         
         if(siguientePiso != null){
-            this.pisoActual = siguientePiso;
+            this.pisoActualElevador = siguientePiso;
             this.esperarUnSegundo();
             abrirPuertas();
             
-            System.out.println("Elevador en el piso " + this.getPisoActual());
-            destinos.remove(this.pisoActual);
+            System.out.println("Elevador en el piso " + this.getPisoActualElevador());
+            destinos.remove(this.pisoActualElevador);
         }       
     }   
 }
