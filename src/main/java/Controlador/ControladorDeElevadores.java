@@ -1,19 +1,17 @@
 package Controlador;
 
 import Modelo.*;
-import static Modelo.Elevador.BAJANDO;
-import static Modelo.Elevador.SUBIENDO;
 import Modelo.Peticion;
 import java.util.ArrayList;
 
 public class ControladorDeElevadores {
-    private ArrayList<Elevador> elevadores;
+    protected ArrayList<Elevador> elevadores;
     private ArrayList<Peticion> peticionesPendientes;
-    private Peticion unaPeticion;
     
     
     public ControladorDeElevadores(ArrayList<Elevador> elevadores) {
         this.elevadores = elevadores;
+        this.peticionesPendientes = new ArrayList<>(); //aqui se va a guardar las peticiones mas adelante
     }
 
     public void setElevadores(ArrayList<Elevador> elevadores) {
@@ -23,21 +21,23 @@ public class ControladorDeElevadores {
     public void setPeticionesPendientes(ArrayList<Peticion> peticionesPendientes) {
         this.peticionesPendientes = peticionesPendientes;
     }
+
+    public ArrayList<Peticion> getPeticionesPendientes() {
+        return peticionesPendientes;
+    }
     
 
 
     public void recibirPeticion(Peticion unaPeticion){
         System.out.println("Elegir elevador. 1>Pasajeros, 2>Express, 3>De Carga");
-        int origen = this.unaPeticion.getPisoOrigen();
-        int destino = this.unaPeticion.getPisoDestino();
-        int tipoElevador = this.unaPeticion.getElevadorElegido();
+        int origen = unaPeticion.getPisoOrigen();
+        int destino = unaPeticion.getPisoDestino();
+        int tipoElevador = unaPeticion.getElevadorElegido();
         
-        peticionesPendientes.add(unaPeticion);
-                
+        peticionesPendientes.add(unaPeticion);         
     }
     
     public void asignarPeticion(){
-        
         if (this.peticionesPendientes.isEmpty()) {
             return;
         }
@@ -85,7 +85,7 @@ public class ControladorDeElevadores {
     }
     
     public void actualizarSistema(){
-        //Ciclo de Simulación
+        //el ciclo de simulación
         for(int i=0; i<elevadores.size();i++){
             elevadores.get(i).procesarMovimiento();
         }
@@ -97,5 +97,17 @@ public class ControladorDeElevadores {
             Elevador unElevador = elevadores.get(i);
             System.out.println(unElevador.toString()); 
         }
+    }
+
+    public int obtenerUbicacionExpress() {
+        for (int i = 0; i < this.elevadores.size(); i++) {
+            
+            Elevador express = this.elevadores.get(i);
+ 
+            if (express instanceof ElevadorExpress) {
+                return express.getPisoActualElevador();
+            }
+        }
+        return -1; //error
     }
 }

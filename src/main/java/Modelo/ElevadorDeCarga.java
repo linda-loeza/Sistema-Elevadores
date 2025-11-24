@@ -4,6 +4,8 @@
  */
 package Modelo;
 
+import Vista.FrmInicioSistema;
+
 /**
  *
  * @author natalia-loeza
@@ -41,10 +43,11 @@ public class ElevadorDeCarga extends Elevador{
 
     @Override
     public void mover() {
-         //verificar el pesos
+         //verificar el peso en kg
         System.out.println("Verificando peso...");
         if(this.cargaActualKg > this.capacidadMaxKg){
-            System.out.println("Peso excedido. Libere peso del elevador.");
+            String mensaje = "Peso excedido. Libere peso del elevador.";
+            FrmInicioSistema.mostrarMensaje(mensaje);
             return;
         }
         
@@ -54,13 +57,12 @@ public class ElevadorDeCarga extends Elevador{
           
         Integer siguientePiso = null;
         
-        // Cerrar puertas antes de mover
+        // cerrar puertas antes de mover
         if (this.puertasAbiertas) {
             cerrarPuertas();
         }
 
-        //Verificar si sube o baja
-        
+        //verificar si sube o baja
         if(this.direccion == SUBIENDO){
             siguientePiso = destinos.higher(this.pisoActualElevador);
             if(siguientePiso == null){
@@ -81,15 +83,70 @@ public class ElevadorDeCarga extends Elevador{
                 }
             }
         }
+        
         if(siguientePiso != null){
-            this.esperarUnSegundo();
-            this.pisoActualElevador = siguientePiso;
+            String avisoMovimiento = "Elevador " + getId() + " Viajando del piso " + this.pisoActualElevador + " al " + siguientePiso + "...";
+            FrmInicioSistema.mostrarMensaje(avisoMovimiento);
+
+            // si el elevador no llega, va esto
+            while(this.pisoActualElevador != siguientePiso) {
+                this.esperarUnSegundo(); 
+        
+                if(this.pisoActualElevador < siguientePiso) {
+                    this.pisoActualElevador++;  //va a subir 1
+                    this.direccion = SUBIENDO; 
+                }else{
+                    this.pisoActualElevador--; // va a bajar 1
+                    this.direccion = BAJANDO;
+                }
+                String paso = "Elevador " + getId() + " ... Pasando por piso " + getPisoActualElevador();
+                System.out.println(paso);
+                Vista.FrmInicioSistema.mostrarMensaje(paso);
+            }
+    
+            
             abrirPuertas();
-        
             destinos.remove(this.pisoActualElevador); //eliminamos el destino ya que llegamos
+
+            System.out.println("ELEVADOR: Estoy en " + pisoActualElevador + ". Destinos pendientes: " + destinos);
+
+            if(!destinos.isEmpty()) {
+                if(this.direccion == SUBIENDO) {
+                    if(destinos.higher(this.pisoActualElevador) != null) {
+                        this.direccion = SUBIENDO; 
+                    }else{
+                        this.direccion = BAJANDO; 
+                    }
+                }else if(this.direccion == BAJANDO) {
+                    if(destinos.lower(this.pisoActualElevador) != null) {
+                        this.direccion = BAJANDO; // Seguimos bajando
+                    }else{
+                        this.direccion = SUBIENDO;
+                    }
+                }else{
+                    if(destinos.higher(this.pisoActualElevador) != null) this.direccion = SUBIENDO;
+                        else this.direccion = BAJANDO;
+                }               
+            }else{
+                this.direccion = PARADO;
+            }
+        }
         
-            System.out.println("Elevador en el piso" + getPisoActualElevador());
+        String pisoElevador = "Elevador llego al piso "+ getPisoActualElevador();
+        FrmInicioSistema.mostrarMensaje(pisoElevador);
+        
+            //para saber si hay algun destino al que hay que ir
+            if(!destinos.isEmpty()) {
+                if (destinos.higher(this.pisoActualElevador) != null) {
+                this.direccion = SUBIENDO;
+            }else if(destinos.lower(this.pisoActualElevador) != null) {
+                this.direccion = BAJANDO;
+            }
+            
+            }else{
+                this.direccion = PARADO;
+            }
             
         } 
-    } 
+    
 }

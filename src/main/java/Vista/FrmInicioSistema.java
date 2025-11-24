@@ -4,12 +4,17 @@
  */
 package Vista;
 
+import Modelo.*;
+import Controlador.*;
+import java.util.ArrayList;
+
 /**
  *
  * @author natalia-loeza
  */
 public class FrmInicioSistema extends javax.swing.JFrame {
-    
+    public static Controlador.EdificioMain edificio;
+    private static FrmInicioSistema instancia;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmInicioSistema.class.getName());
 
     /**
@@ -17,6 +22,7 @@ public class FrmInicioSistema extends javax.swing.JFrame {
      */
     public FrmInicioSistema() {
         initComponents();
+        instancia = this;
     }
 
     /**
@@ -32,6 +38,8 @@ public class FrmInicioSistema extends javax.swing.JFrame {
         btnCarga = new javax.swing.JButton();
         btnExpress = new javax.swing.JButton();
         btnInformacion = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtVista = new javax.swing.JTextArea();
         lbFotoMenu = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -39,10 +47,20 @@ public class FrmInicioSistema extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         btnPasajeros.setText("Pasajeros");
+        btnPasajeros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPasajerosMouseClicked(evt);
+            }
+        });
         getContentPane().add(btnPasajeros);
         btnPasajeros.setBounds(70, 300, 100, 30);
 
         btnCarga.setText("Carga");
+        btnCarga.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCargaMouseClicked(evt);
+            }
+        });
         btnCarga.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCargaActionPerformed(evt);
@@ -52,6 +70,11 @@ public class FrmInicioSistema extends javax.swing.JFrame {
         btnCarga.setBounds(70, 360, 100, 30);
 
         btnExpress.setText("Express");
+        btnExpress.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnExpressMouseClicked(evt);
+            }
+        });
         btnExpress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExpressActionPerformed(evt);
@@ -61,8 +84,21 @@ public class FrmInicioSistema extends javax.swing.JFrame {
         btnExpress.setBounds(70, 410, 100, 30);
 
         btnInformacion.setText("Informacion");
+        btnInformacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnInformacionMouseClicked(evt);
+            }
+        });
         getContentPane().add(btnInformacion);
         btnInformacion.setBounds(90, 510, 110, 24);
+
+        txtVista.setEditable(false);
+        txtVista.setColumns(20);
+        txtVista.setRows(5);
+        jScrollPane1.setViewportView(txtVista);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(324, 130, 270, 220);
 
         lbFotoMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/servicio.png"))); // NOI18N
         lbFotoMenu.setText("Informacion");
@@ -80,6 +116,49 @@ public class FrmInicioSistema extends javax.swing.JFrame {
     private void btnCargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCargaActionPerformed
+
+    private void btnInformacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInformacionMouseClicked
+        FrmInfoElevadores unInfoElevadores = new FrmInfoElevadores();
+        unInfoElevadores.setVisible(true);
+    }//GEN-LAST:event_btnInformacionMouseClicked
+
+    private void btnExpressMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExpressMouseClicked
+        try {
+            String input = javax.swing.JOptionPane.showInputDialog(this, 
+                    "¿En qué piso te encuentras? (1 o 10):", 
+                    "Ubicación del Pasajero", 
+                        javax.swing.JOptionPane.QUESTION_MESSAGE);
+
+            if(input == null || input.trim().isEmpty()) return;
+
+            int pisoUsuario = Integer.parseInt(input);
+
+            if(pisoUsuario == 1 || pisoUsuario == 10) {
+                FrmPeticionExpress frm = new FrmPeticionExpress(pisoUsuario);
+                frm.setVisible(true);
+            }else{
+                int ubicacionActual = Controlador.EdificioMain.controlador.obtenerUbicacionExpress();
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                        "El servicio Express NO está disponible en el piso " + pisoUsuario + ".\n"
+                        + "Solo disponible en Lobby (1) y Penthouse (10).\n\n" 
+                        + "El elevador Express se encuentra actualmente en el piso: " + ubicacionActual, 
+                        "Servicio No Disponible", 
+                        javax.swing.JOptionPane.WARNING_MESSAGE);
+            }
+        }catch(NumberFormatException e){
+            javax.swing.JOptionPane.showMessageDialog(this, "Ingresa un número válido.");
+        }
+    }//GEN-LAST:event_btnExpressMouseClicked
+
+    private void btnPasajerosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPasajerosMouseClicked
+        FrmPeticionPasajeros unFrmPeticionPasajeros = new FrmPeticionPasajeros();
+        unFrmPeticionPasajeros.setVisible(true);
+    }//GEN-LAST:event_btnPasajerosMouseClicked
+
+    private void btnCargaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargaMouseClicked
+        FrmPeticionCarga unFrmPeticionCarga = new FrmPeticionCarga();
+        unFrmPeticionCarga.setVisible(true);
+    }//GEN-LAST:event_btnCargaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -105,12 +184,21 @@ public class FrmInicioSistema extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new FrmInicioSistema().setVisible(true));
     }
+    
+    public static void mostrarMensaje(String mensaje) {
+        if(instancia != null){
+            instancia.txtVista.append(mensaje + "\n");
+            instancia.txtVista.setCaretPosition(instancia.txtVista.getDocument().getLength());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCarga;
     private javax.swing.JButton btnExpress;
     private javax.swing.JButton btnInformacion;
     private javax.swing.JButton btnPasajeros;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbFotoMenu;
+    private javax.swing.JTextArea txtVista;
     // End of variables declaration//GEN-END:variables
 }
