@@ -4,9 +4,8 @@
  */
 package Modelo;
 
-import java.util.ArrayList;
-import Modelo.*;
 import Controlador.*;
+import Vista.FrmInicioSistema;
 
 /**
  *
@@ -14,6 +13,7 @@ import Controlador.*;
  */
 public class ElevadorExpress extends Elevador {
     private int pisosPermitidos;
+    private static ControladorDeElevadores unControlador;
 
     public ElevadorExpress(int id) {
         super(2);
@@ -37,11 +37,11 @@ public class ElevadorExpress extends Elevador {
         Integer siguientePiso = null;
         
         if (this.pisoActualElevador != 1 && this.pisoActualElevador != 10) {
-            System.out.println("Elevador no disponible");
+            String mensaje = "Elevador no disponible";
+            FrmInicioSistema.mostrarMensaje(mensaje);
             return;
         }
         
-        // Cerrar puertas antes de mover
         if (this.puertasAbiertas) {
             cerrarPuertas();
         }
@@ -50,23 +50,79 @@ public class ElevadorExpress extends Elevador {
             if(destinos.contains(10)){
                 siguientePiso = 10;
             }else{
-                System.out.println("Elevador no disponible.");
+                String mensaje = "Elevador no disponible.";
+                FrmInicioSistema.mostrarMensaje(mensaje);
             }
         }else if(this.pisoActualElevador == 10){
             if(destinos.contains(1)){
                 siguientePiso = 1;
             }else{
-                System.out.println("Elevador no disponible.");
+                String mensaje = "Elevador no disponible.";
+                FrmInicioSistema.mostrarMensaje(mensaje);
             }
         }
         
         if(siguientePiso != null){
-            this.pisoActualElevador = siguientePiso;
-            this.esperarUnSegundo();
-            abrirPuertas();
+            String avisoMovimiento = "Elevador " + getId() + " Viajando del piso " + this.pisoActualElevador + " al " + siguientePiso + "...";
+            FrmInicioSistema.mostrarMensaje(avisoMovimiento);
+
+            while (this.pisoActualElevador != siguientePiso){
+                this.esperarUnSegundo(); 
+        
+                if (this.pisoActualElevador < siguientePiso){
+                    this.pisoActualElevador++;  //va a subir 1
+                    this.direccion = SUBIENDO; 
+                }else{
+                    this.pisoActualElevador--; // va a bajar 1
+                    this.direccion = BAJANDO;
+                }
+                String paso = "Elevador " + getId() + " ... Pasando por piso " + getPisoActualElevador();
+                System.out.println(paso);
+                Vista.FrmInicioSistema.mostrarMensaje(paso);
+            }
+    
             
-            System.out.println("Elevador en el piso " + this.getPisoActualElevador());
-            destinos.remove(this.pisoActualElevador);
-        }       
-    }   
+            abrirPuertas();
+            destinos.remove(this.pisoActualElevador); //eliminamos el destino ya que llegamos
+
+            System.out.println("ELEVADOR: Estoy en " + pisoActualElevador + ". Destinos pendientes: " + destinos);
+
+            if(!destinos.isEmpty()){
+                if(this.direccion == SUBIENDO){
+                    if(destinos.higher(this.pisoActualElevador) != null){
+                        this.direccion = SUBIENDO; 
+                    }else{
+                        this.direccion = BAJANDO; 
+                    }
+                }else if(this.direccion == BAJANDO){
+                    if(destinos.lower(this.pisoActualElevador) != null){
+                        this.direccion = BAJANDO; // Seguimos bajando
+                    }else{
+                        this.direccion = SUBIENDO;
+                    }
+                }else{
+                    if(destinos.higher(this.pisoActualElevador) != null) this.direccion = SUBIENDO;
+                        else this.direccion = BAJANDO;
+                }               
+            }else{
+                this.direccion = PARADO;
+            }
+        }
+        
+        String pisoElevador = "Elevador llego al piso "+ getPisoActualElevador();
+        FrmInicioSistema.mostrarMensaje(pisoElevador);
+        
+            //para saber si hay algun destino al que hay que ir
+            if (!destinos.isEmpty()){
+                if (destinos.higher(this.pisoActualElevador) != null){
+                this.direccion = SUBIENDO;
+            }else if (destinos.lower(this.pisoActualElevador) != null){
+                this.direccion = BAJANDO;
+            }
+            
+            }else{
+                this.direccion = PARADO;
+            }
+            
+        } 
 }

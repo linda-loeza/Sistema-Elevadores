@@ -4,6 +4,7 @@
  */
 package Modelo;
 
+import Vista.FrmInicioSistema;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
@@ -76,24 +77,40 @@ public abstract class Elevador {
     
 
     public void agregarDestino(int pisoOrigen, int pisoDireccion){
-        
-        if (!(this.direccion == PARADO && this.pisoActualElevador == pisoOrigen)) {
-            this.destinos.add(pisoOrigen); //el elevador sabra en donde esta el pasajero
-        } else { //si ya esta en el piso y esta parado el elevador
-            System.out.println("Elevador ya está en el piso de origen. Abriendo puertas.");
-            abrirPuertas(); 
+        if (this.direccion == PARADO) {
+            
+            Integer arriba = destinos.higher(this.pisoActualElevador);
+            Integer abajo = destinos.lower(this.pisoActualElevador);
+            
+            if (arriba != null && abajo != null) {
+                int distanciaArriba = Math.abs(arriba - this.pisoActualElevador);
+                int distanciaAbajo = Math.abs(abajo - this.pisoActualElevador);
+                
+                // vamos al que esté más cerca
+                if (distanciaArriba <= distanciaAbajo) {
+                    this.direccion = SUBIENDO; 
+                }else{
+                    this.direccion = BAJANDO; 
+                }
+            }else if(arriba != null) {
+                this.direccion = SUBIENDO;
+            }else if(abajo != null) {
+                this.direccion = BAJANDO;
+            }
         }
         
-        boolean agregado = this.destinos.add(pisoDireccion); //el elevador sabra a donde quiere ir el pasajero
+        boolean agregado = this.destinos.add(pisoOrigen); //el elevador sabra a donde quiere ir el pasajero
+        agregado = this.destinos.add(pisoDireccion);
         
         if(agregado){
-            System.out.println("Elevador " +getId() + 
-                ": Destino " + getPisoActualElevador() + " agregado. Destinos actuales: " + destinos);
+            String mensaje ="Elevador " + getId() + 
+                ": Destino " + getPisoActualElevador() + 
+                    " agregado. Destinos actuales: " + destinos;
         }
     }
     
     public void procesarMovimiento(){
-        if (destinos.isEmpty()) {
+        if(destinos.isEmpty()) {
             if(this.direccion != PARADO){
                 this.direccion = PARADO;
             }
@@ -108,34 +125,36 @@ public abstract class Elevador {
             } 
         }else{ //por si el destino es el piso actual.
                 //abrimos puertas y lo sacamos de la lista.
-            System.out.println("Elevador " + id + " ya está en el piso. Abriendo puertas.");
+            String mensaje = "Elevador " + id + " ya está en el piso. Abriendo puertas.";
             abrirPuertas();
             destinos.remove(this.pisoActualElevador);
-            return; // Terminamos aquí, no hace falta llamar a mover()
+            return;
         }
         mover();
     }
     
     public void cerrarPuertas() {
         this.puertasAbiertas = false;
-        System.out.println("Puertas cerrando...");
+        String mensaje ="Puertas cerrando...";
+        FrmInicioSistema.mostrarMensaje(mensaje);
     }
 
     public void abrirPuertas() {
         this.puertasAbiertas = true;
-        System.out.println("Puertas abriendo...");
+        String mensaje = "Puertas abriendo...";
+        FrmInicioSistema.mostrarMensaje(mensaje);
     }
     
     public void esperarUnSegundo() {
-        try {
-            Thread.sleep(1000); // Pausa el programa 1 seg
-        } catch (InterruptedException e) {
+        try{
+            Thread.sleep(1000); // pausa el programa 1 seg
+        }catch(InterruptedException e) {
             e.printStackTrace();
         }
     }
     
     public String direccionToString() {
-        switch (this.direccion) {
+        switch(this.direccion) {
             case SUBIENDO:
                 return "SUBIENDO";
             case BAJANDO:

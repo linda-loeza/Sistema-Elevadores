@@ -28,21 +28,32 @@ public class FrmInfoElevadores extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        btnRegresar = new javax.swing.JButton();
+        lbInfoElevadores = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(600, 600));
+        getContentPane().setLayout(null);
+
+        btnRegresar.setText("Regresar");
+        btnRegresar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRegresarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnRegresar);
+        btnRegresar.setBounds(260, 500, 100, 24);
+
+        lbInfoElevadores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/infoElevadores.png"))); // NOI18N
+        getContentPane().add(lbInfoElevadores);
+        lbInfoElevadores.setBounds(0, 0, 600, 550);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -70,5 +81,7 @@ public class FrmInfoElevadores extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRegresar;
+    private javax.swing.JLabel lbInfoElevadores;
     // End of variables declaration//GEN-END:variables
 }

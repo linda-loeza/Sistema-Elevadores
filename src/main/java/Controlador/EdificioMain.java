@@ -4,7 +4,6 @@
  */
 package Controlador;
 import Modelo.*;
-import Controlador.ControladorDeElevadores;
 import Vista.FrmInicioSistema;
 import java.util.ArrayList;
 
@@ -21,8 +20,8 @@ public class EdificioMain {
     FrmInicioSistema inicioMenu = new FrmInicioSistema();
     
     private final int numeroDePisos = 10;
-    private ControladorDeElevadores controlador;
-    private ArrayList<Elevador> losElevadores;
+    public static ControladorDeElevadores controlador;
+    public ArrayList<Elevador> losElevadores;
 
     public EdificioMain(ControladorDeElevadores controlador, ArrayList<Elevador> losElevadores) {
         this.controlador = controlador;
@@ -35,8 +34,6 @@ public class EdificioMain {
     
     public static void main(String[] args) {
         EdificioMain edificio = new EdificioMain();
-        
-        // 2. Iniciamos la Simulación Gráfica
         edificio.iniciarSimulacion();
         
     }
@@ -48,11 +45,9 @@ public class EdificioMain {
         ElevadorDePasajeros pasajeros = new ElevadorDePasajeros(1);
         losElevadores.add(pasajeros);
         
-        // ID 2: Express (Solo piso 1 y 10)
         ElevadorExpress express = new ElevadorExpress(2);
         losElevadores.add(express);
         
-        // ID 3: Carga (Con capacidad inicial)
         ElevadorDeCarga carga = new ElevadorDeCarga(3, 0.0);
         losElevadores.add(carga);
         
@@ -60,6 +55,7 @@ public class EdificioMain {
     }
     
     public void iniciarSimulacion(){
+        FrmInicioSistema.edificio = this;
         inicioMenu.setVisible(true);
     }
     

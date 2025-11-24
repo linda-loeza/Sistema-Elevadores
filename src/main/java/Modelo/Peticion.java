@@ -4,10 +4,6 @@
  */
 package Modelo;
 
-/**
- *
- * @author natalia-loeza
- */
 public class Peticion {
     private int pisoOrigen;
     private int pisoDestino;
